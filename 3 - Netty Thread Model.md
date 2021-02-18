@@ -1,4 +1,4 @@
-# 3 - EventLoop
+# 3 - Netty Thread Model
 
 Created by : Mr Dk.
 
