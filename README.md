@@ -18,8 +18,8 @@ Notes of reading *Netty in Action* by *Norman Maurer* and *Marvin Allen Wolfthal
 
 * Different programming model of **Java BIO** / **Java NIO** / **Netty**
 * Implementation differences of **Java NIO ByteBuffer** / **Netty ByteBuf**
-* Java **Executor** framework (Executor Service / Thread Pool / Future)
-* Different **EventExecutor(Group)** / **EventLoop(Group)** implementation
+* Concepts in Java **Executor** framework (Executor Service / Thread Pool / Future)
+* Different **EventExecutor(Group)** / **EventLoop(Group)** implementations
 * ...
 
 ---
