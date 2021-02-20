@@ -71,10 +71,10 @@ try {
 
 Java 在 2002 年的 JDK 1.4 中引入了 `java.nio`，提供了对非阻塞 I/O 的支持。其中，`java.nio.channels.Selector` 是非阻塞 I/O 的关键。它使用了 I/O 多路复用 API 向 OS 随时查询多个读写操作的完成状态。因此，单一的线程就可以处理多个并发的连接。多路复用器背后充当的功能是一个 **注册表**：对注册表的一次请求，能够获知已注册的所有 channel **是否发生了状态变化**。可能的状态有：
 
-* 新的 channel 已被接受并就绪 - `OP_ACCEPT`
-* Channel 连接已被建立 - `OP_CONNECT`
-* Channel 中已有就绪可被读取的数据 - `OP_READ`
-* Channel 已就绪被用于写数据 - `OP_WRITE`
+* `OP_ACCEPT` - 新的 channel 已被接受并就绪
+* `OP_CONNECT` - Channel 连接已被建立
+* `OP_READ` - Channel 中已有就绪可被读取的数据
+* `OP_WRITE` - Channel 已就绪被用于写数据
 
 与阻塞 I/O 相比，非阻塞 I/O 模型提供了更好的资源管理：
 
@@ -149,12 +149,12 @@ while (true) {
 ```java
 ByteBuf buf = Unpooled.copiedBuffer("Hello", Charset.forName("utf-8"));
 
-EventLoopGroup group = new NioEventLoopGroup();
+EventLoopGroup group = new NioEventLoopGroup(); // --> OioEventLoopGroup
 try {
     ServerBootstrap b = new ServerBootstrap();
     b
         .group(group)
-        .channel(NioServerSocketChannel.class)
+        .channel(NioServerSocketChannel.class) // --> OioServerSocketChannel.class
         .localAddress(new InetSocketAddress(8080))
         .childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
@@ -176,7 +176,7 @@ try {
 }
 ```
 
-Netty 同时支持阻塞版本与非阻塞版本的函数，并且两种版本的代码几乎完全相同，因为 Netty 为每种传输实现都暴露了相同的 API，业务代码几乎不受影响。Netty 内置的开箱即用传输包含：
+Netty 同时支持阻塞版本与非阻塞版本的函数，并且两种版本的代码几乎完全相同，因为 Netty 为每种传输实现都暴露了相同的 API，业务代码几乎不受影响，在上面代码的注释位置稍作修改即可。Netty 内置的开箱即用传输包含：
 
 | 名称     | 包                            | 描述                                              |
 | -------- | ----------------------------- | ------------------------------------------------- |
