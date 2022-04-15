@@ -12,8 +12,8 @@ Longyou, Zhejiang, China
 
 在早期的 Java 中，多线程处理的具体方式是 **按需创建和启动新的 Thread** 来执行并发的任务单元，这种方式在高负载下工作得很差。Java 5 后引入了 `Executor` API，其中的线程池通过 **缓存和重用 `Thread`** 极大地提高了性能：
 
-* 从线程池的空闲线程链表中选择一个 `Thread`，并指派其运行一个 `Runnable` 的任务
-* 任务完成后，将 `Thread` 返回给列表
+- 从线程池的空闲线程链表中选择一个 `Thread`，并指派其运行一个 `Runnable` 的任务
+- 任务完成后，将 `Thread` 返回给列表
 
 线程的池化相比于简单地创建和销毁线程来说是一种进步，但并不能消除上下文切换所带来的开销。上下文切换的开销随着线程数量的增加而加速增大。
 
@@ -143,8 +143,8 @@ public interface EventExecutor extends EventExecutorGroup {
 
 接口定义了确定一个线程是否是 EventLoop 线程的函数。Netty 线程模型的卓越性能取决于对于当前正在执行的 `Thread` **身份** 的确定：
 
-* 如果当前线程正是 EventLoop 线程，那么任务将被立刻执行
-* 否则 EventLoop 将调度该任务稍后执行，保存在内部队列中
+- 如果当前线程正是 EventLoop 线程，那么任务将被立刻执行
+- 否则 EventLoop 将调度该任务稍后执行，保存在内部队列中
 
 每个 EventLoop 都有自己的任务队列，独立于任何其它 EventLoop。因此，同一个 EventLoop 内部无需额外同步。另外，不能将一个执行时间较长的任务放入执行队列，否则将会阻塞同一个 EventLoop 线程将要执行的其它任务。
 
@@ -174,11 +174,8 @@ EventExecutorGroup parent();
 
 ### Asynchronous Transportation
 
-异步传输的实现只用了少量的 EventLoop 线程，每个 EventLoop 被多个 Channel 共享。通过尽可能少的 EventLoop 线程支撑大量的 Channel 能够减少内存开销与上下文切换开销。所有的 EventLoop 都由 EventLoopGroup 分配，每个 EventLoop 与一个 `Thread` 相关联。EventLoopGroup 会为每一个新创建的 Channel 分配一个 EventLoop 来处理，当前的默认实现是 *round-robin*。对于一个 Channel 来说，整个生命周期内的所有操作都由一个 EventLoop Thread 执行。
+异步传输的实现只用了少量的 EventLoop 线程，每个 EventLoop 被多个 Channel 共享。通过尽可能少的 EventLoop 线程支撑大量的 Channel 能够减少内存开销与上下文切换开销。所有的 EventLoop 都由 EventLoopGroup 分配，每个 EventLoop 与一个 `Thread` 相关联。EventLoopGroup 会为每一个新创建的 Channel 分配一个 EventLoop 来处理，当前的默认实现是 _round-robin_。对于一个 Channel 来说，整个生命周期内的所有操作都由一个 EventLoop Thread 执行。
 
 ### Blocking Transportation
 
 由于阻塞传输的特性，每个 Channel 都将被分配给一个 EventLoop (即一个 `Thread`)，得到的保证是每个 Channel 的 I/O 事件只会被一个 `Thread` 处理，这个 `Thread` 也将只处理这一个 Channel 的事件。这种设计在满足阻塞场景的同时，也保证了 Netty 编程模式的一致性。
-
----
-

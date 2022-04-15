@@ -16,9 +16,9 @@ Ningbo, Zhejiang, China
 
 `ByteBuf` 在底层支持顺序 / 随机访问。对于顺序访问，其内部维护的索引如注释中所示：
 
-* 读索引之前的字节是被使用丢弃后的字节
-* 读索引与写索引之间是已被写入可以被读取的字节，在调用 `read` / `skip` 操作后读索引向前推进
-* 写索引与容量之间是可以被写入的字节空间，在调用 `write` 操作后写索引向前推进
+- 读索引之前的字节是被使用丢弃后的字节
+- 读索引与写索引之间是已被写入可以被读取的字节，在调用 `read` / `skip` 操作后读索引向前推进
+- 写索引与容量之间是可以被写入的字节空间，在调用 `write` 操作后写索引向前推进
 
 ```
  +-------------------+------------------+------------------+
@@ -73,8 +73,8 @@ AFTER clear()
 
 通过一个已有的 buffer 获取视图的方式包含两种：
 
-* 派生缓冲区 - 返回新的 `ByteBuf` 实例，里面有独立的读写索引，但是底层数组与原对象共享
-* 复制缓冲区 - 返回现有 buffer 的真实副本 (通过 `copy()`)
+- 派生缓冲区 - 返回新的 `ByteBuf` 实例，里面有独立的读写索引，但是底层数组与原对象共享
+- 复制缓冲区 - 返回现有 buffer 的真实副本 (通过 `copy()`)
 
 ## References Count
 
@@ -149,9 +149,9 @@ public interface ReferenceCounted {
 
 `ByteBuf` 的创建支持 **池化** / **非池化**。Netty 通过 `io.netty.buffer.ByteBufAllocator` 接口实现 `ByteBuf` 的池化。`ByteBuf` 的类型包含以下几种：
 
-* 堆上 buffer - 底层将数据维护在 JVM 堆空间中的一个字节数组里
-* 直接缓冲区 - 驻留在会被 GC 的常规堆内存外，分配和释放代价昂贵
-* 组合缓冲区 - 为多个 `ByteBuf` 提供一个聚合视图，是将多个缓冲区表示为单个合并缓冲区的虚拟表示，消除了没必要的复制
+- 堆上 buffer - 底层将数据维护在 JVM 堆空间中的一个字节数组里
+- 直接缓冲区 - 驻留在会被 GC 的常规堆内存外，分配和释放代价昂贵
+- 组合缓冲区 - 为多个 `ByteBuf` 提供一个聚合视图，是将多个缓冲区表示为单个合并缓冲区的虚拟表示，消除了没必要的复制
 
 ```java
 /**
@@ -217,8 +217,8 @@ public interface ByteBufAllocator {
 
 在具体的实现上，`ByteBufAllocator` 包含：
 
-* `PooledByteBufAllocator` 使用 *jemalloc* 的方法来高效地分配内存，最大程度地减少内存碎片
-* `UnpooledByteBufAllocator` 的实现不池化 `ByteBuf` 实例，每次调用都返回一个新的 `ByteBuf` 实例
+- `PooledByteBufAllocator` 使用 _jemalloc_ 的方法来高效地分配内存，最大程度地减少内存碎片
+- `UnpooledByteBufAllocator` 的实现不池化 `ByteBuf` 实例，每次调用都返回一个新的 `ByteBuf` 实例
 
 在无法获得到一个 `ByteBufAllocator` 的引用时，通过 `io.netty.buffer.Unpooled` 工具类，内部使用一个 `UnpooledByteBufAllocator` 的实例，可以轻松分配非池化的不同类型的 `ByteBuf`：
 
@@ -226,9 +226,9 @@ public interface ByteBufAllocator {
 public final class Unpooled {
 
     private static final ByteBufAllocator ALLOC = UnpooledByteBufAllocator.DEFAULT;
-    
+
     // ...
-    
+
     /**
      * Creates a new big-endian Java heap buffer with reasonably small initial capacity, which
      * expands its capacity boundlessly on demand.
@@ -236,9 +236,9 @@ public final class Unpooled {
     public static ByteBuf buffer() {
         return ALLOC.heapBuffer();
     }
-    
+
     // ...
-    
+
     /**
      * Creates a new big-endian direct buffer with reasonably small initial capacity, which
      * expands its capacity boundlessly on demand.
@@ -246,9 +246,9 @@ public final class Unpooled {
     public static ByteBuf directBuffer() {
         return ALLOC.directBuffer();
     }
-    
+
     // ...
-    
+
     /**
      * Creates a new big-endian buffer which wraps the specified {@code array}.
      * A modification on the specified array's content will be visible to the
@@ -260,9 +260,9 @@ public final class Unpooled {
         }
         return new UnpooledHeapByteBuf(ALLOC, array, array.length);
     }
-    
+
     // ...
-    
+
     /**
      * Creates a new big-endian buffer whose content is a copy of the
      * specified {@code array}.  The new buffer's {@code readerIndex} and
@@ -274,10 +274,7 @@ public final class Unpooled {
         }
         return wrappedBuffer(array.clone());
     }
-    
+
     // ...
 }
 ```
-
----
-

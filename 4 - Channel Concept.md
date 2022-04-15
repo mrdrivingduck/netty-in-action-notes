@@ -12,12 +12,12 @@ Ningbo, Zhejiang, China
 
 `Channel` 表示可被 I/O 操作的组件的抽象表示，可以被读取 / 写入 / 连接 / 绑定。典型的例子：socket。Channel 可以向用户提供如下信息：
 
-* 当前 `Channel` 的状态 (已打开 / 已连接？)
-* `Channel` 的配置参数 (接收缓冲区大小)
-* `Channel` 支持的 I/O 操作
-* 处理 `Channel` 的 I/O 事件及请求的 `ChannelPipeline`
+- 当前 `Channel` 的状态 (已打开 / 已连接？)
+- `Channel` 的配置参数 (接收缓冲区大小)
+- `Channel` 支持的 I/O 操作
+- 处理 `Channel` 的 I/O 事件及请求的 `ChannelPipeline`
 
-在 *Netty* 中，所有的 I/O 操作都是异步的，返回值不保证 I/O 操作是否成功。返回的 `ChannelFuture` 实例能够在 I/O 操作成功 / 失败 / 取消时通知用户。
+在 _Netty_ 中，所有的 I/O 操作都是异步的，返回值不保证 I/O 操作是否成功。返回的 `ChannelFuture` 实例能够在 I/O 操作成功 / 失败 / 取消时通知用户。
 
 `Channel` 可以是层次化的，由具体的传输实现决定。一个 channel 可以有一个 `parent()`，比如，一个由 `ServerSocketChannel` 接受的 `SocketChannel` 将会在调用 `parent()` 时返回 `ServerSocketChannel`。
 
@@ -31,14 +31,14 @@ Ningbo, Zhejiang, China
 
 根据 `ChannelHandler` 的功能不同，该接口派生出了如下子接口：
 
-* `ChannelInboundHandler` - 处理入站 I/O 事件
-* `ChannelOutboundHandler` - 处理出站 I/O 事件
-* `ChannelDuplexHandler` - 同时处理双向 I/O 事件
+- `ChannelInboundHandler` - 处理入站 I/O 事件
+- `ChannelOutboundHandler` - 处理出站 I/O 事件
+- `ChannelDuplexHandler` - 同时处理双向 I/O 事件
 
-对于前两种接口，*Netty* 已经提供了默认实现类，用户只需要继承默认实现类并重写自己想要定制的函数即可：
+对于前两种接口，_Netty_ 已经提供了默认实现类，用户只需要继承默认实现类并重写自己想要定制的函数即可：
 
-* `ChannelInboundHandlerAdapter`
-* `ChannelOutboundHandlerAdapter`
+- `ChannelInboundHandlerAdapter`
+- `ChannelOutboundHandlerAdapter`
 
 ## ChannelPipeline
 
@@ -57,6 +57,3 @@ Ningbo, Zhejiang, China
 <img src="./img/6-5.png" alt="6-5" style="zoom:50%;" />
 
 该接口上定义的函数很多也存在与 `Channel` 与 `ChannelPipeline` 中，但不同的是，调用 `ChannelHandlerContext` 上的函数将使操作从当前的 `ChannelHandler` 开始向后传播给能够处理该事件的 `ChannelHandler`；而 `Channel` 或 `ChannelPipeline` 上的操作将沿整个 `ChannelPipeline` 传播。从而减少事件流经对它不感兴趣的 `ChannelHandler` 带来的开销。
-
----
-
